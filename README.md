@@ -1,3 +1,23 @@
+## 🏆 Hacktoberfest 2026
+
+DepositProof was built as part of the **Hacktoberfest 2026 DEV Challenge — Week 2: Side Hustle**.
+
+The challenge inspired me to explore how open-source AI can solve a real-world problem. DepositProof helps tenants document rental property conditions, organize inspection photos, track maintenance issues, and generate PDF evidence reports.
+
+### 🤖 Open-Source AI
+
+- **Ollama** for running AI models locally.
+- **LLaVA 7B (`llava:7b`)** for vision-based property photo analysis.
+- A privacy-conscious approach that avoids relying on paid external AI APIs for image analysis.
+
+### 🔗 Project Links
+
+- **Live Demo:** https://rental-evidence-app-4t0s.bolt.host
+- **DEV Challenge:** [Hacktoberfest Week 2 — Side Hustle](https://dev.to/challenges/hacktoberfest-week2-2026-10-12)
+
+*Built with curiosity, open-source AI, and the goal of making rental documentation easier for everyone.*
+
+
 # DepositProof
 
 **Document it before. Prove it later.**
