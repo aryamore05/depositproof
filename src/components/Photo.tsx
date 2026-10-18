@@ -61,9 +61,42 @@ export function PhotoUploader({
 
   const clearFinished = () => setQueue((q) => q.filter((u) => !u.photo && !u.error));
 
+  const openPicker = () => {
+    inputRef.current?.click();
+  };
+
   return (
     <div>
+      {/* Visually hidden but not display:none — display:none can block
+          programmatic .click() in some browsers. Positioned off-screen
+          and sized to 0 so it stays in the DOM and focusable. */}
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        multiple
+        className="sr-only"
+        aria-hidden="true"
+        tabIndex={-1}
+        onChange={(e) => {
+          if (e.target.files && e.target.files.length) {
+            handleFiles(e.target.files);
+            // Reset so selecting the same file again still fires onChange.
+            e.target.value = "";
+          }
+        }}
+      />
+
       <div
+        role="button"
+        tabIndex={0}
+        onClick={openPicker}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            openPicker();
+          }
+        }}
         onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
         onDragLeave={() => setDragOver(false)}
         onDrop={(e) => {
@@ -71,22 +104,21 @@ export function PhotoUploader({
           setDragOver(false);
           if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
         }}
-        className={`rounded-xl border-2 border-dashed p-6 text-center transition-colors ${
-          dragOver ? "border-teal-400 bg-teal-50" : "border-slate-300 bg-white"
+        className={`cursor-pointer rounded-xl border-2 border-dashed p-6 text-center transition-colors ${
+          dragOver ? "border-teal-400 bg-teal-50" : "border-slate-300 bg-white hover:border-teal-300 hover:bg-slate-50"
         }`}
       >
-        <input
-          ref={inputRef}
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          multiple
-          className="hidden"
-          onChange={(e) => e.target.files && handleFiles(e.target.files)}
-        />
         <Upload size={22} className="mx-auto text-slate-400" />
         <p className="mt-2 text-sm text-slate-600">
           Drag photos here or{" "}
-          <button type="button" className="font-medium text-teal-600 hover:text-teal-700" onClick={() => inputRef.current?.click()}>
+          <button
+            type="button"
+            className="font-medium text-teal-600 hover:text-teal-700"
+            onClick={(e) => {
+              e.stopPropagation();
+              openPicker();
+            }}
+          >
             browse
           </button>
         </p>
